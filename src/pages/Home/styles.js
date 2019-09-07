@@ -4,6 +4,11 @@ import { darken } from 'polished';
 export const Container = styled.View`
   background: #191920;
 `;
+
+export const Loading = styled.ActivityIndicator`
+  color: #fff;
+`;
+
 export const ProductList = styled.FlatList`
   margin: 0 auto;
 `;

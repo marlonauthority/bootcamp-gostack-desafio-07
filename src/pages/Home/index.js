@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
-import { View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Container,
+  Loading,
   Content,
   ProductList,
   Product,
@@ -15,32 +15,29 @@ import {
   ProductAmountText,
   AddButtonText,
 } from './styles';
+import api from '../../services/api';
+import { formatPrice } from '../../util/format';
 
 class Home extends Component {
   state = {
-    products: [
-      {
-        id: 1,
-        title: 'Tênis de Caminhada Leve Confortável',
-        price: 'R$179.9',
-        image:
-          'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-      },
-      {
-        id: 2,
-        title: 'Tênis VR Caminhada Confortável Detalhes Couro Masculino',
-        price: 'R$179.9',
-        image:
-          'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg',
-      },
-      {
-        id: 3,
-        title: 'Tênis VR Caminhada Confortável Detalhes Couro Masculino',
-        price: 'R$179.9',
-        image:
-          'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg',
-      },
-    ],
+    loading: false,
+    products: [],
+  };
+
+  async componentDidMount() {
+    this.setState({
+      loading: true,
+    });
+    this.load();
+  }
+
+  load = async () => {
+    const response = await api.get(`products`);
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
+    this.setState({ products: data, loading: false });
   };
 
   renderItems = ({ item }) => {
@@ -52,7 +49,7 @@ class Home extends Component {
               uri: item.image,
             }}
           />
-          <ProductPrice>{item.price}</ProductPrice>
+          <ProductPrice>{item.priceFormatted}</ProductPrice>
         </Content>
         <ProductTitle>{item.title}</ProductTitle>
         <AddButton onPress={() => {}}>
@@ -67,9 +64,11 @@ class Home extends Component {
   };
 
   render() {
-    const { products } = this.state;
+    const { products, loading } = this.state;
     return (
       <Container>
+        {loading === true && <Loading />}
+
         <ProductList
           data={products}
           showsHorizontalScrollIndicator={false}
