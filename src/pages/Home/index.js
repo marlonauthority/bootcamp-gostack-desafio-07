@@ -60,7 +60,7 @@ class Home extends Component {
             <Icon name="add-shopping-cart" color="#fff" size={20} />
             <ProductAmountText>2</ProductAmountText>
           </ProductAmount>
-          <AddButtonText>Adicionar</AddButtonText>
+          <AddButtonText>Comprar</AddButtonText>
         </AddButton>
       </Product>
     );
