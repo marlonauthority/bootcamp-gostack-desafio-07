@@ -27,7 +27,7 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ cart }) {
+function Cart({ cart, dispatch }) {
   return (
     <Container>
       {/* <BackButton onPress={() => props.navigation.goBack()}>
@@ -45,7 +45,11 @@ function Cart({ cart }) {
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.priceFormatted}</ProductPrice>
                   </ProductDetails>
-                  <ProductDelete onPress={() => {}}>
+                  <ProductDelete
+                    onPress={() =>
+                      dispatch({ type: 'REMOVE_FROM_CART', id: product.id })
+                    }
+                  >
                     <Icon name="delete-forever" size={24} color="#7159c1" />
                   </ProductDelete>
                 </ProductInfo>
