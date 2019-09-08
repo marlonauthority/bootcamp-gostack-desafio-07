@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { Alert } from 'react-native';
 
 export default function cart(state = [], action) {
   // console.tron.log('teste');
@@ -29,6 +30,21 @@ export default function cart(state = [], action) {
           draft.splice(productIndex, 1);
         }
       });
+    case '@cart/UPDATE_AMOUNT': {
+      if (action.amount <= 0) {
+        Alert.alert('Não é permitido uma quantidade abaixo de zero');
+        return state;
+      }
+      return produce(state, draft => {
+        const productIndex = draft.findIndex(
+          product => product.id === action.id
+        );
+
+        if (productIndex >= 0) {
+          draft[productIndex].amount = Number(action.amount);
+        }
+      });
+    }
     default:
       return state;
   }
