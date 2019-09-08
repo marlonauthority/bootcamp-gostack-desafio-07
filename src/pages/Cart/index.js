@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { formatPrice } from '../../util/format';
 import {
   Container,
   IconBack,
@@ -70,7 +71,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
                   <ProductControlButton onPress={() => increment(product)}>
                     <Icon name="add-circle-outline" size={20} color="#7159c1" />
                   </ProductControlButton>
-                  <ProductSubtotal>R$129,99</ProductSubtotal>
+                  <ProductSubtotal>{product.subTotal}</ProductSubtotal>
                 </ProductControls>
               </Product>
             ))}
@@ -98,7 +99,10 @@ function Cart({ cart, removeFromCart, updateAmount }) {
   header: null,
 }; */
 const mapStateToProps = state => ({
-  cart: state.cartReducer,
+  cart: state.cartReducer.map(product => ({
+    ...product,
+    subTotal: formatPrice(product.price * product.amount),
+  })),
 });
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
