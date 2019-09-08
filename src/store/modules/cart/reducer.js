@@ -7,7 +7,7 @@ export default function cart(state = [], action) {
   // console.tron.log(state);
 
   switch (action.type) {
-    case '@cart/ADD':
+    case '@cart/ADD_SUCCESS':
       return produce(state, draft => {
         const productIndex = draft.findIndex(
           product => product.id === action.product.id
