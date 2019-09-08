@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Container,
@@ -40,6 +40,14 @@ class Home extends Component {
     this.setState({ products: data, loading: false });
   };
 
+  handleAddProduct = product => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
+  };
+
   renderItems = ({ item }) => {
     return (
       <Product>
@@ -52,7 +60,7 @@ class Home extends Component {
           <ProductPrice>{item.priceFormatted}</ProductPrice>
         </Content>
         <ProductTitle>{item.title}</ProductTitle>
-        <AddButton onPress={() => {}}>
+        <AddButton onPress={() => this.handleAddProduct(item)}>
           <ProductAmount>
             <Icon name="add-shopping-cart" color="#fff" size={20} />
             <ProductAmountText>2</ProductAmountText>
@@ -80,4 +88,4 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+export default connect()(Home);
