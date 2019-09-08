@@ -86,6 +86,9 @@ export const ProductSubtotal = styled.Text`
 
 export const TotalContainer = styled.View`
   margin-top: 10px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 4px;
 `;
 export const TotalText = styled.Text`
   text-align: center;
@@ -96,7 +99,7 @@ export const TotalText = styled.Text`
 export const TotalAmount = styled.Text`
   text-align: center;
   margin-top: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 20px;
   font-weight: bold;
 `;
@@ -117,6 +120,9 @@ export const EmptyContainer = styled.View`
   align-items: center;
   justify-content: center;
   margin: 30px 0;
+  background: #fff;
+  padding: 30px;
+  border-radius: 4px;
 `;
 
 export const EmptyText = styled.Text`

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
@@ -27,81 +27,60 @@ import {
   EmptyText,
 } from './styles';
 
-export default function Cart(props) {
+function Cart({ cart }) {
   return (
     <Container>
       {/* <BackButton onPress={() => props.navigation.goBack()}>
         <Icon name="arrow-back" size={24} color="#fff" />
         <IconBack>Voltar</IconBack>
       </BackButton> */}
-      <Products>
-        <Product>
-          <ProductInfo>
-            <ProductImage
-              source={{
-                uri:
-                  'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-              }}
-            />
-            <ProductDetails>
-              <ProductTitle>Tenis legal</ProductTitle>
-              <ProductPrice>128,99</ProductPrice>
-            </ProductDetails>
-            <ProductDelete onPress={() => {}}>
-              <Icon name="delete-forever" size={24} color="#7159c1" />
-            </ProductDelete>
-          </ProductInfo>
-          <ProductControls>
-            <ProductControlButton onPress={() => {}}>
-              <Icon name="remove-circle-outline" size={20} color="#7159c1" />
-            </ProductControlButton>
-            <ProductAmount value="3" />
-            <ProductControlButton onPress={() => {}}>
-              <Icon name="add-circle-outline" size={20} color="#7159c1" />
-            </ProductControlButton>
-            <ProductSubtotal>R$129,99</ProductSubtotal>
-          </ProductControls>
-        </Product>
-        <Product>
-          <ProductInfo>
-            <ProductImage
-              source={{
-                uri:
-                  'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-              }}
-            />
-            <ProductDetails>
-              <ProductTitle>Tenis legal</ProductTitle>
-              <ProductPrice>128,99</ProductPrice>
-            </ProductDetails>
-            <ProductDelete onPress={() => {}}>
-              <Icon name="delete-forever" size={24} color="#7159c1" />
-            </ProductDelete>
-          </ProductInfo>
-          <ProductControls>
-            <ProductControlButton onPress={() => {}}>
-              <Icon name="remove-circle-outline" size={20} color="#7159c1" />
-            </ProductControlButton>
-            <ProductAmount value="3" />
-            <ProductControlButton onPress={() => {}}>
-              <Icon name="add-circle-outline" size={20} color="#7159c1" />
-            </ProductControlButton>
-            <ProductSubtotal>R$129,99</ProductSubtotal>
-          </ProductControls>
-        </Product>
+      {cart.length ? (
+        <>
+          <Products>
+            {cart.map(product => (
+              <Product key={product.id}>
+                <ProductInfo>
+                  <ProductImage source={{ uri: product.image }} />
+                  <ProductDetails>
+                    <ProductTitle>{product.title}</ProductTitle>
+                    <ProductPrice>{product.priceFormatted}</ProductPrice>
+                  </ProductDetails>
+                  <ProductDelete onPress={() => {}}>
+                    <Icon name="delete-forever" size={24} color="#7159c1" />
+                  </ProductDelete>
+                </ProductInfo>
+                <ProductControls>
+                  <ProductControlButton onPress={() => {}}>
+                    <Icon
+                      name="remove-circle-outline"
+                      size={20}
+                      color="#7159c1"
+                    />
+                  </ProductControlButton>
+                  <ProductAmount value={String(product.amount)} />
+                  <ProductControlButton onPress={() => {}}>
+                    <Icon name="add-circle-outline" size={20} color="#7159c1" />
+                  </ProductControlButton>
+                  <ProductSubtotal>R$129,99</ProductSubtotal>
+                </ProductControls>
+              </Product>
+            ))}
+          </Products>
 
-        <TotalContainer>
-          <TotalText>Total</TotalText>
-          <TotalAmount>R$499,00</TotalAmount>
-          <Order>
-            <OrderText>Finalizar Pedido</OrderText>
-          </Order>
-        </TotalContainer>
+          <TotalContainer>
+            <TotalText>Total</TotalText>
+            <TotalAmount>R$499,00</TotalAmount>
+            <Order>
+              <OrderText>Finalizar Pedido</OrderText>
+            </Order>
+          </TotalContainer>
+        </>
+      ) : (
         <EmptyContainer>
           <Icon name="remove-shopping-cart" size={64} color="#ccc" />
           <EmptyText>Seu carrinho está vazio.</EmptyText>
         </EmptyContainer>
-      </Products>
+      )}
     </Container>
   );
 }
@@ -109,3 +88,8 @@ export default function Cart(props) {
 /* Cart.navigationOptions = {
   header: null,
 }; */
+const mapStateToProps = state => ({
+  cart: state.cartReducer,
+});
+
+export default connect(mapStateToProps)(Cart);
