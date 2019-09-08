@@ -29,7 +29,7 @@ import {
 } from './styles';
 import * as CartActions from '../../store/modules/cart/actions';
 
-function Cart({ cart, removeFromCart, updateAmount }) {
+function Cart({ cart, removeFromCart, updateAmount, total }) {
   function increment(product) {
     updateAmount(product.id, product.amount + 1);
   }
@@ -79,7 +79,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 
           <TotalContainer>
             <TotalText>Total</TotalText>
-            <TotalAmount>R$499,00</TotalAmount>
+            <TotalAmount>{total}</TotalAmount>
             <Order>
               <OrderText>Finalizar Pedido</OrderText>
             </Order>
@@ -103,6 +103,11 @@ const mapStateToProps = state => ({
     ...product,
     subTotal: formatPrice(product.price * product.amount),
   })),
+  total: formatPrice(
+    state.cartReducer.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
