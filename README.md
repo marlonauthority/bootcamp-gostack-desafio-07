@@ -1,12 +1,12 @@
-# Desafio 07. Redux
+# Instalação
 
-Nesse desafio você migrará o projeto de e-commerce criado na web para dispositivos móveis utilizando React Native.
+- **yarn** ou **npm install** para instalação de dependencias
 
-Utilize ESLint, Prettier, EditorConfig, React Navigation e todas outras ferramentas que vimos até aqui no mundo do React Native.
+- rode na raiz do projeto a api com json server
 
-O projeto terá as mesmas funcionalidades que o projeto web mas deve possuir uma interface mobile.
-
-Resultado:
+```
+json-server api.json -p 3001 -w -d 500
+```
 
 <center>
 <img src="demo.gif" height="400">
