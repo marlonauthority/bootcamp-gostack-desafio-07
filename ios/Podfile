@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'modulo07desafio' do
-  # Pods for modulo07desafio
+target 'shoppingcart' do
+  # Pods for shoppingcart
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
   pod 'React-DevSupport', :path => '../node_modules/react-native/React'
@@ -29,7 +29,7 @@ target 'modulo07desafio' do
 
 
 
-  target 'modulo07desafioTests' do
+  target 'shoppingcartTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -37,10 +37,10 @@ target 'modulo07desafio' do
   use_native_modules!
 end
 
-target 'modulo07desafio-tvOS' do
-  # Pods for modulo07desafio-tvOS
+target 'shoppingcart-tvOS' do
+  # Pods for shoppingcart-tvOS
 
-  target 'modulo07desafio-tvOSTests' do
+  target 'shoppingcart-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

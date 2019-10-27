@@ -1,4 +1,4 @@
-package com.modulo07desafio;
+package com.shoppingcart;
 
 import android.app.Application;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.modulo07desafio;
+package com.shoppingcart;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -14,7 +14,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "modulo07desafio";
+        return "shoppingcart";
     }
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {

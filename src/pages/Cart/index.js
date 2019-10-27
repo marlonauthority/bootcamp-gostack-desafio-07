@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { formatPrice } from '../../util/format';
@@ -29,21 +29,34 @@ import {
 } from './styles';
 import * as CartActions from '../../store/modules/cart/actions';
 
-function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
+export default function Cart() {
+  const total = useSelector(state =>
+    formatPrice(
+      state.cartReducer.reduce((totalSum, product) => {
+        return totalSum + product.price * product.amount;
+      }, 0)
+    )
+  );
+
+  const cart = useSelector(state =>
+    state.cartReducer.map(product => ({
+      ...product,
+      subTotal: formatPrice(product.price * product.amount),
+    }))
+  );
+
+  const dispatch = useDispatch();
+
   function increment(product) {
-    updateAmountRequest(product.id, product.amount + 1);
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount + 1));
   }
 
   function decrement(product) {
-    updateAmountRequest(product.id, product.amount - 1);
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount - 1));
   }
 
   return (
     <Container>
-      {/* <BackButton onPress={() => props.navigation.goBack()}>
-        <Icon name="arrow-back" size={24} color="#fff" />
-        <IconBack>Voltar</IconBack>
-      </BackButton> */}
       {cart.length ? (
         <>
           <Products>
@@ -55,7 +68,11 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.priceFormatted}</ProductPrice>
                   </ProductDetails>
-                  <ProductDelete onPress={() => removeFromCart(product.id)}>
+                  <ProductDelete
+                    onPress={() =>
+                      dispatch(CartActions.removeFromCart(product.id))
+                    }
+                  >
                     <Icon name="delete-forever" size={24} color="#7159c1" />
                   </ProductDelete>
                 </ProductInfo>
@@ -94,25 +111,3 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
     </Container>
   );
 }
-
-/* Cart.navigationOptions = {
-  header: null,
-}; */
-const mapStateToProps = state => ({
-  cart: state.cartReducer.map(product => ({
-    ...product,
-    subTotal: formatPrice(product.price * product.amount),
-  })),
-  total: formatPrice(
-    state.cartReducer.reduce((total, product) => {
-      return total + product.price * product.amount;
-    }, 0)
-  ),
-});
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Cart);
